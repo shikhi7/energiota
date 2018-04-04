@@ -1,0 +1,23 @@
+<!doctype html>
+<html>
+  <head>
+    <title>energiota</title>
+    <!--<link rel="stylesheet" type="text/css" href="theme.css"/>-->
+  </head>
+  <body>
+
+    <form action = "http://127.0.0.1:3000/process_seedlogin" method = "POST">
+      Seed: <input type = "text" name = "seed"> <br>
+      <input type = "submit" value = "Submit">
+    </form>
+
+    <form action = "http://127.0.0.1:3000/process_getNodeInfo" method = "POST">
+      <input type = "submit" value = "View Node Info">
+    </form>
+
+    <form action = "http://127.0.0.1:3000/process_genAddr" method = "POST">
+      <input type = "submit" value = "Generate New Address">
+    </form>
+
+  </body>
+</html>
