@@ -1,0 +1,19 @@
+{
+  "name": "energiota",
+  "version": "1.0.0",
+  "description": "undergraduate project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "shikhi",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "cookie": "^0.3.1",
+    "express": "^4.16.3",
+    "nonce": "^1.0.4",
+    "request": "^2.85.0",
+    "request-promise": "^4.2.2"
+  }
+}
