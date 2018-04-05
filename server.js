@@ -4,13 +4,53 @@ const IOTA = require("iota.lib.js")
 
 var app = express();
 var http = require('http').Server(app);
+var io = require('socket.io')(http);
 const iota = new IOTA({provider: "http://localhost:14800"})
 
 var urlencodedParser = bodyParser.urlencoded({extended:false});
+let newAddr = ''
 
 app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
+
+
+ function getNewAddr(seed){
+
+	return new Promise(function(resolve, reject){
+		iota.api.getNewAddress(seed, (error, success) => {
+			if (error) {
+				reject(error);
+			}
+			else {
+				console.log(success);
+				resolve(success);
+			}
+		})
+	});
+}
+
+
+const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
+
+io.on('connection', function(socket){
+	socket.on('new address', function(msg){
+		let p = getNewAddr(fromseed);
+		p.then(function(msg){
+			console.log("working: " + msg);
+			io.emit('new address', msg);
+		}).catch(function(error){
+			console.log(error);
+		})
+	});
+});
+
+
+
+
+
+
+
 
 app.post('/process_seedlogin', urlencodedParser, function(req, res){
   // Prepare output in JSON format
@@ -27,16 +67,14 @@ app.post('/process_getNodeInfo', urlencodedParser, function(req, res){
     iota.api.getNodeInfo((error, success) => {
 		if (error){
 			console.log(error);
-			//response = error;
 		} else {
 			console.log(success);
-			//response = success;
 		}
     });
     res.end(JSON.stringify(response));
 })
 
-const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
+//const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
 
 app.post('/process_genAddr', urlencodedParser, function(req, res){
   // Prepare output in JSON format
@@ -46,7 +84,6 @@ app.post('/process_genAddr', urlencodedParser, function(req, res){
 		}
 		else {
 			console.log(success);
-			res.end(success);
 		}
 	});
 })

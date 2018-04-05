@@ -28,13 +28,8 @@ app.get('/', function(req, res){
 			}
 		})
 	});
-
-	//setTimeout(function(){}, 4000);
 }
 
-// let gWrapper = function (f1){
-// 	resp = 
-// }
 
 const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
 
@@ -42,19 +37,11 @@ io.on('connection', function(socket){
 	socket.on('new address', function(msg){
 		let p = getNewAddr(fromseed);
 		p.then(function(msg){
-			//console.log(msg);
-			//resp = msg;
-			//return resp;
 			console.log("working: " + msg);
 			io.emit('new address', msg);
 		}).catch(function(error){
 			console.log(error);
 		})
-		// setTimeout(function(){
-		// 	console.log("working: " + resp);
-		// 	io.emit('new address', resp);
-		//}, 2500);
-		//let respo = resp.next();
 	});
 });
 
@@ -74,7 +61,20 @@ app.post('/process_seedlogin', urlencodedParser, function(req, res){
     res.end(JSON.stringify(response));
 })
 
-// const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
+app.post('/process_getNodeInfo', urlencodedParser, function(req, res){
+  // Prepare output in JSON format
+    response = {};
+    iota.api.getNodeInfo((error, success) => {
+		if (error){
+			console.log(error);
+		} else {
+			console.log(success);
+		}
+    });
+    res.end(JSON.stringify(response));
+})
+
+const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
 
 app.post('/process_genAddr', urlencodedParser, function(req, res){
   // Prepare output in JSON format
@@ -84,8 +84,6 @@ app.post('/process_genAddr', urlencodedParser, function(req, res){
 		}
 		else {
 			console.log(success);
-			newAddr = success;
-			setTimeout(function(){res.end(newAddr);}, 2000);
 		}
 	});
 })
