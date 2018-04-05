@@ -4,6 +4,22 @@
     <title>energiota</title>
     <!--<link rel="stylesheet" type="text/css" href="theme.css"/>-->
   </head>
+  
+  <script src="/socket.io/socket.io.js"></script>
+  <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+  <script>
+    $(function() {
+      var socket = io();
+      $('#gA').submit(function(){
+        socket.emit('new address', "hihi");
+        return false;
+      });
+      socket.on('new address', function(addr){
+        $('#forAddr').append(addr);
+      });
+    });
+  
+  </script>
   <body>
 
     <form action = "http://127.0.0.1:3000/process_seedlogin" method = "POST">
@@ -15,11 +31,13 @@
       <input type = "submit" value = "View Node Info">
     </form>
 
-    <form action = "http://127.0.0.1:3000/process_genAddr" method = "POST">
+    <div>
+    <form id="gA" action = "" method = "POST">
       <input type = "submit" value = "Generate New Address">
     </form>
 
     <p id="forAddr"></p>
-    
+    </div>
+
   </body>
 </html>
