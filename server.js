@@ -14,30 +14,27 @@ app.get('/', function(req, res){
     res.sendFile(__dirname + '/index.html');
 });
 
-
- function getNewAddr(seed){
-
+function getNewAddr(seed){
 	return new Promise(function(resolve, reject){
 		iota.api.getNewAddress(seed, (error, success) => {
 			if (error) {
 				reject(error);
 			}
 			else {
-				console.log(success);
+				console.log("success in getNewAddress: " + success);
 				resolve(success);
 			}
 		})
 	});
 }
 
-
-const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
+let fromseed = ''
 
 io.on('connection', function(socket){
 	socket.on('new address', function(msg){
 		let p = getNewAddr(fromseed);
 		p.then(function(msg){
-			console.log("working: " + msg);
+			//console.log("working: " + msg);
 			io.emit('new address', msg);
 		}).catch(function(error){
 			console.log(error);
@@ -45,21 +42,38 @@ io.on('connection', function(socket){
 	});
 });
 
-
-
-
-
-
-
-
 app.post('/process_seedlogin', urlencodedParser, function(req, res){
-  // Prepare output in JSON format
-    response = {
-      seed:req.body.seed,
-    };
-    console.log(response);
-    res.end(JSON.stringify(response));
+    console.log("login seed is: " + req.body.seed);
+    fromseed = req.body.seed;
+    console.log("fromseed: " + fromseed);
+    res.sendFile(__dirname + '/logged.html');
 })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 app.post('/process_getNodeInfo', urlencodedParser, function(req, res){
   // Prepare output in JSON format
@@ -92,4 +106,3 @@ app.post('/process_genAddr', urlencodedParser, function(req, res){
 http.listen(3000, function(){
   console.log('listening on *:3000');
 });
-
