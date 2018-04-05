@@ -40,9 +40,15 @@ const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYD
 
 app.post('/process_genAddr', urlencodedParser, function(req, res){
   // Prepare output in JSON format
-    addr = iota.api.getNewAddress(fromseed, function(req, res){})
-    console.log(addr);
-    res.end(stringify(addr));
+    iota.api.getNewAddress(fromseed, (error, success) => {
+		if (error) {
+			console.log(error)
+		}
+		else {
+			console.log(success);
+			res.end(success);
+		}
+	});
 })
 
 
