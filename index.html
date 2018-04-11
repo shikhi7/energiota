@@ -15,7 +15,8 @@
         return false;
       });
       socket.on('node', function(info){
-        $('#nodi').html(JSON.stringify(info));
+        //$('#nodi').html(JSON.stringify(info, null, "\t"));
+        $('#nodi').html(info);
       });
     });
   </script>
@@ -24,11 +25,11 @@
 
     <div>
       <form action = "http://127.0.0.1:3000/process_seedlogin" method = "POST">
-        Seed: <input type = "text" name = "seed"> <br>
-        <input type = "submit" value = "Submit">
+        Seed: <input type = "text" name = "seed" size="100">
+        <input type = "submit" value = "Login">
       </form>
   </div>
-    <br> <br>
+    <br>
     <form id="node" action="" method = "POST">
       <input type = "submit" value = "View Node Info">
       <p id="nodi"></p>

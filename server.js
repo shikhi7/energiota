@@ -79,7 +79,7 @@ function getNodeInf(){
 			}
 			else {
 				console.log("node: " + success);
-        resolve(success);
+        resolve(JSON.stringify(success, null, "\t"));
 			}
 		})
 	});
