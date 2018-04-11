@@ -10,12 +10,12 @@
   <script>
     $(function() {
       var socket = io();
-      $('#gA').submit(function(){
-        socket.emit('new address', "hihi");
+      $('#node').submit(function(){
+        socket.emit('node', "hihi");
         return false;
       });
-      socket.on('new address', function(addr){
-        $('#forAddr').append(addr);
+      socket.on('node', function(info){
+        $('#nodi').html(JSON.stringify(info));
       });
     });
   </script>
@@ -28,9 +28,10 @@
         <input type = "submit" value = "Submit">
       </form>
   </div>
-
-    <form action = "http://127.0.0.1:3000/process_getNodeInfo" method = "POST">
+    <br> <br>
+    <form id="node" action="" method = "POST">
       <input type = "submit" value = "View Node Info">
+      <p id="nodi"></p>
     </form>
 
   </body>

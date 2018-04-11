@@ -15,7 +15,7 @@
         return false;
       });
       socket.on('new address', function(addr){
-        $('#forAddr').append(addr);
+        $('#forAddr').html(addr + "<br>");
       });
       $('#gAccI').submit(function(){
         socket.emit('account info', "hihi");
@@ -28,7 +28,7 @@
         for (i=0; i<info.length; i++){
           cont += JSON.stringify(info[i]) + "<br>";
         }
-        $('#forAccInfo').append(cont);
+        $('#forAccInfo').html(cont);
       });
       $('#gU').submit(function(){
         socket.emit('used address', "hihi");
@@ -40,6 +40,13 @@
         for (i=0; i<info.length; i++){
           $('#forUsed').append(info[i] + "<br>");
         }
+      });
+      $('#gB').submit(function(){
+        socket.emit('balance', "hihi");
+        return false;
+      });
+      socket.on('balance', function(bal){
+        $('#forBal').html(bal + "<br>")
       });
     });
   </script>
