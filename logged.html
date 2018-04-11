@@ -13,6 +13,8 @@
     let complhtml = $('#bill').html();
     let res = complhtml.replace(appMsg, "");
     $('#bill').html(res);
+    let socket = io();
+    socket.emit('paythis', appMsg);
   }
   </script>
 
@@ -62,11 +64,15 @@
         return false;
       });
       socket.on('bill', function(msg){
-        let appMsg = msg + "  "
+        let appMsg = msg + "  ";
         $('#bill').append(appMsg);
-        $('#bill').append('<input type="button" onclick='+"'"+'paybill("'+appMsg+'"'+")' value='Pay' />");
+        $('#bill').append('<input id="payy" type="button" onclick='+"'"+'paybill("'+appMsg+'"'+")' value='Pay' />");
         $('#bill').append("<br>");
       });
+      // $('#payy').click(function(){
+      //   socket.emit('bill', "hihi");
+      //   return false;
+      // });
     });
   </script>
 

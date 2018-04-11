@@ -95,6 +95,33 @@ function getBill(seed, billers){
 	});
 }
 
+function payBill(seed, mssg){
+  return new Promise(function(resolve, reject){
+    msgArr = mssg.split(" ");
+    toAdd = msgArr[5];
+    toAddr = toAdd.slice(0, 81);
+    amt = Number(msgArr[2]);
+    //resolve(toAdd);
+    mess = iota.utils.toTrytes('Hello World!');
+    let transfers = [
+    	{
+    		value: amt,
+    		address: toAddr,
+        message: mess
+    	}
+    ]
+		iota.api.sendTransfer(seed, 3, 9, transfers, (error, success) => {
+			if (error) {
+				reject(error);
+			}
+			else {
+        resolve(success);
+			}
+		})
+	});
+}
+
+
 let fromseed = ''
 let billers = ['TURZROPXXKUGCRTEGYXZARYYXWWPDRFRQDGMSIZGACGOU9YBIRWLUONPTPCKEXVJKQFZPKRPZZBLLNMCXD9L9KA9NX',
               'DICTCOWMYBFKJMVCZWZVYLZNJVUJDCLISHRRFHNYGXWRNVVAIMVHVRGPYZJEFYUBKTG9YTSHTYUPIVWUZPIWMCTNUD',
@@ -146,6 +173,16 @@ io.on('connection', function(socket){
 		let p = getBill(fromseed, billers);
 		p.then(function(msg){
 			io.emit('bill', msg);
+		}).catch(function(error){
+			console.log(error);
+		})
+	});
+  socket.on('paythis', function(msg){
+    //console.log(msg);
+		let p = payBill(fromseed, msg);
+		p.then(function(msg1){
+			//io.emit('paythis', msg1);
+      console.log(msg1);
 		}).catch(function(error){
 			console.log(error);
 		})
