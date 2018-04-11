@@ -46,7 +46,14 @@
         return false;
       });
       socket.on('balance', function(bal){
-        $('#forBal').html(bal + "<br>")
+        $('#forBal').html(bal + "<br>");
+      });
+      $('#genBill').submit(function(){
+        socket.emit('bill', "hihi");
+        return false;
+      });
+      socket.on('bill', function(msg){
+        $('#bill').append(msg + "<br>");
       });
     });
   </script>
@@ -56,6 +63,7 @@
     <div>
     <form id="gA" action = "" method = "POST">
       <input type = "submit" value = "Get New Address">
+      <button type="button" onclick='$("#forAddr").html("");'>Clear</button>
     </form>
     <p id="forAddr"></p>
     </div>
@@ -63,6 +71,7 @@
     <div>
     <form id="gU" action = "" method = "POST">
       <input type = "submit" value = "Get All Used Address">
+      <button type="button" onclick='$("#forUsed").html("");'>Clear</button>
     </form>
     <p id="forUsed"></p>
     </div>
@@ -70,6 +79,7 @@
     <div>
     <form id="gAccI" action = "" method = "POST">
       <input type = "submit" value = "Get Account Info">
+      <button type="button" onclick='$("#forAccInfo").html("");'>Clear</button>
     </form>
     <p id="forAccInfo"></p>
     </div>
@@ -77,8 +87,17 @@
     <div>
     <form id="gB" action = "" method = "POST">
       <input type = "submit" value = "Get Total Balance">
+      <button type="button" onclick='$("#forBal").html("");'>Clear</button>
     </form>
     <p id="forBal"></p>
+    </div>
+
+    <div>
+      <form id="genBill" action="" method = "POST">
+        <input type = "submit" value = "Bill Please">
+        <button type="button" onclick='$("#bill").html("");'>Clear</button>
+      </form>
+      <p id="bill"></p>
     </div>
 
   </body>

@@ -85,7 +85,20 @@ function getNodeInf(){
 	});
 }
 
+function getBill(seed, billers){
+  return new Promise(function(resolve, reject){
+    let retStr = 'Please pay ';
+    billAmt = Math.floor((Math.random() * 100) + 25);
+    randInd = Math.floor((Math.random() * 3));
+    retStr += billAmt.toString() + ' IOTA to ' + billers[randInd];
+    resolve(retStr);
+	});
+}
+
 let fromseed = ''
+let billers = ['TURZROPXXKUGCRTEGYXZARYYXWWPDRFRQDGMSIZGACGOU9YBIRWLUONPTPCKEXVJKQFZPKRPZZBLLNMCXD9L9KA9NX',
+              'DICTCOWMYBFKJMVCZWZVYLZNJVUJDCLISHRRFHNYGXWRNVVAIMVHVRGPYZJEFYUBKTG9YTSHTYUPIVWUZPIWMCTNUD',
+              'LGYAZFK9SSBCJQFGNCOYWQTRDVOIBWJIKBEBWCDZVJXNPOCNFIRILKCGSQGP99UTCMTKONIG9AGHFWQHCBYKSUHUTY']
 
 io.on('connection', function(socket){
 	socket.on('new address', function(msg){
@@ -125,6 +138,14 @@ io.on('connection', function(socket){
 		let p = getNodeInf();
 		p.then(function(msg){
 			io.emit('node', msg);
+		}).catch(function(error){
+			console.log(error);
+		})
+	});
+  socket.on('bill', function(msg){
+		let p = getBill(fromseed, billers);
+		p.then(function(msg){
+			io.emit('bill', msg);
 		}).catch(function(error){
 			console.log(error);
 		})
