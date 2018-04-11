@@ -17,6 +17,13 @@
       socket.on('new address', function(addr){
         $('#forAddr').append(addr);
       });
+      $('#gAccI').submit(function(){
+        socket.emit('account info', "hihi");
+        return false;
+      });
+      socket.on('account info', function(info){
+        //$('#forAccInfo').append(info);
+      });
     });
   </script>
 
@@ -27,6 +34,13 @@
       <input type = "submit" value = "Generate New Address">
     </form>
     <p id="forAddr"></p>
+    </div>
+
+    <div>
+    <form id="gAccI" action = "" method = "POST">
+      <input type = "submit" value = "Get Account Info">
+    </form>
+    <p id="forAccInfo"></p>
     </div>
 
   </body>

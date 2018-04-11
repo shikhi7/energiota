@@ -28,6 +28,20 @@ function getNewAddr(seed){
 	});
 }
 
+function getAccountInfo(seed){
+	return new Promise(function(resolve, reject){
+		iota.api.getAccountData(seed, (error, success) => {
+			if (error) {
+				reject(error);
+			}
+			else {
+				console.log("account data: " + success.balance);
+        resolve(JSON.stringify(success,null, 4));
+			}
+		})
+	});
+}
+
 let fromseed = ''
 
 io.on('connection', function(socket){
@@ -36,6 +50,14 @@ io.on('connection', function(socket){
 		p.then(function(msg){
 			//console.log("working: " + msg);
 			io.emit('new address', msg);
+		}).catch(function(error){
+			console.log(error);
+		})
+	});
+  socket.on('account info', function(msg){
+		let p = getAccountInfo(fromseed);
+		p.then(function(msg){
+			io.emit('account info', msg);
 		}).catch(function(error){
 			console.log(error);
 		})
@@ -49,58 +71,32 @@ app.post('/process_seedlogin', urlencodedParser, function(req, res){
     res.sendFile(__dirname + '/logged.html');
 })
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-app.post('/process_getNodeInfo', urlencodedParser, function(req, res){
-  // Prepare output in JSON format
-    response = {};
-    iota.api.getNodeInfo((error, success) => {
-		if (error){
-			console.log(error);
-		} else {
-			console.log(success);
-		}
-    });
-    res.end(JSON.stringify(response));
-})
-
-//const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
-
-app.post('/process_genAddr', urlencodedParser, function(req, res){
-  // Prepare output in JSON format
-    iota.api.getNewAddress(fromseed, (error, success) => {
-		if (error) {
-			console.log(error)
-		}
-		else {
-			console.log(success);
-		}
-	});
-})
+// app.post('/process_getNodeInfo', urlencodedParser, function(req, res){
+//   // Prepare output in JSON format
+//     response = {};
+//     iota.api.getNodeInfo((error, success) => {
+// 		if (error){
+// 			console.log(error);
+// 		} else {
+// 			console.log(success);
+// 		}
+//     });
+//     res.end(JSON.stringify(response));
+// })
+//
+// //const fromseed = 'FRBOCU9PHRLCUYOGUCXXUHFPINKDVRJXBBHOHXXE9OTJMJKBBLYZNNNEXDCQYDSTRKIFYLRRX9WEDXKOC'
+//
+// app.post('/process_genAddr', urlencodedParser, function(req, res){
+//   // Prepare output in JSON format
+//     iota.api.getNewAddress(fromseed, (error, success) => {
+// 		if (error) {
+// 			console.log(error)
+// 		}
+// 		else {
+// 			console.log(success);
+// 		}
+// 	});
+// })
 
 
 http.listen(3000, function(){
