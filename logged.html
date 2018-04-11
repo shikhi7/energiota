@@ -22,7 +22,24 @@
         return false;
       });
       socket.on('account info', function(info){
-        //$('#forAccInfo').append(info);
+        //let useful = info.inputs;
+        let i;
+        let cont = '';
+        for (i=0; i<info.length; i++){
+          cont += JSON.stringify(info[i]) + "<br>";
+        }
+        $('#forAccInfo').append(cont);
+      });
+      $('#gU').submit(function(){
+        socket.emit('used address', "hihi");
+        return false;
+      });
+      socket.on('used address', function(info){
+        //let useful = info.balance;
+        let i;
+        for (i=0; i<info.length; i++){
+          $('#forUsed').append(info[i] + "<br>");
+        }
       });
     });
   </script>
@@ -31,9 +48,16 @@
 
     <div>
     <form id="gA" action = "" method = "POST">
-      <input type = "submit" value = "Generate New Address">
+      <input type = "submit" value = "Get New Address">
     </form>
     <p id="forAddr"></p>
+    </div>
+
+    <div>
+    <form id="gU" action = "" method = "POST">
+      <input type = "submit" value = "Get All Used Address">
+    </form>
+    <p id="forUsed"></p>
     </div>
 
     <div>
@@ -41,6 +65,13 @@
       <input type = "submit" value = "Get Account Info">
     </form>
     <p id="forAccInfo"></p>
+    </div>
+
+    <div>
+    <form id="gB" action = "" method = "POST">
+      <input type = "submit" value = "Get Total Balance">
+    </form>
+    <p id="forBal"></p>
     </div>
 
   </body>

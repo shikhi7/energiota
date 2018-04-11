@@ -5,7 +5,7 @@ var iota = new IOTA({
 });
 
 // now you can start using all of the functions
-iota.api.getAccountData('QBIEJAQVOTT9CZLHXUZCRJPIWLOQKLYFCSUAMWFJUYAARWK9CFFXKSPYRPHJHF9BAPKWFOKOBAACIADXX', function(error, success) {
+iota.api.getAccountData('PZJOTYRNDBDVIDSWMVFOUNDFHDJWECI9QRXFHFQEY9TFFJLBXTQEHOMIZZXHOGJVWKXRDZQVKQUVHSSHZ', function(error, success) {
     if (error) {
         console.error(error);
     } else {
@@ -14,4 +14,4 @@ iota.api.getAccountData('QBIEJAQVOTT9CZLHXUZCRJPIWLOQKLYFCSUAMWFJUYAARWK9CFFXKSP
 });
 
 // you can also get the version
-console.log(iota.version);
+//console.log(iota.version);

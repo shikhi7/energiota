@@ -35,8 +35,22 @@ function getAccountInfo(seed){
 				reject(error);
 			}
 			else {
-				console.log("account data: " + success.balance);
-        resolve(JSON.stringify(success,null, 4));
+				console.log("account data: " + success.inputs);
+        resolve(success.inputs);
+			}
+		})
+	});
+}
+
+function getUsed(seed){
+	return new Promise(function(resolve, reject){
+		iota.api.getAccountData(seed, (error, success) => {
+			if (error) {
+				reject(error);
+			}
+			else {
+				console.log("used addresses: " + success.addresses);
+        resolve(success.addresses);
 			}
 		})
 	});
@@ -58,6 +72,14 @@ io.on('connection', function(socket){
 		let p = getAccountInfo(fromseed);
 		p.then(function(msg){
 			io.emit('account info', msg);
+		}).catch(function(error){
+			console.log(error);
+		})
+	});
+  socket.on('used address', function(msg){
+		let p = getUsed(fromseed);
+		p.then(function(msg){
+			io.emit('used address', msg);
 		}).catch(function(error){
 			console.log(error);
 		})
