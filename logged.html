@@ -10,12 +10,14 @@
 
   <script>
   function paybill(appMsg){
+    let msgArr = appMsg.split(" ");
     let complhtml = $('#bill').html();
-    let res = complhtml.replace(appMsg, "");
+    let res = complhtml.replace(appMsg, "<b>Paid "+ msgArr[2] + " to " + msgArr[5] + " </b>");
     $('#bill').html(res);
     let socket = io();
     socket.emit('paythis', appMsg);
   }
+
   </script>
 
   <script>
@@ -48,6 +50,7 @@
       socket.on('used address', function(info){
         //let useful = info.balance;
         let i;
+        $('#forUsed').html("");
         for (i=0; i<info.length; i++){
           $('#forUsed').append(info[i] + "<br>");
         }
@@ -66,7 +69,7 @@
       socket.on('bill', function(msg){
         let appMsg = msg + "  ";
         $('#bill').append(appMsg);
-        $('#bill').append('<input id="payy" type="button" onclick='+"'"+'paybill("'+appMsg+'"'+")' value='Pay' />");
+        $('#bill').append('<input id="payy" type="button" onclick='+"'"+"this.style.visibility="+'"hidden"'+";"+'paybill("'+appMsg+'"'+")' value='Pay' />");
         $('#bill').append("<br>");
       });
       // $('#payy').click(function(){

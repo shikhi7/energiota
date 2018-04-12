@@ -5,7 +5,7 @@ var iota = new IOTA({
 });
 
 // now you can start using all of the functions
-const toaddr = 'TURZROPXXKUGCRTEGYXZARYYXWWPDRFRQDGMSIZGACGOU9YBIRWLUONPTPCKEXVJKQFZPKRPZZBLLNMCXD9L9KA9NX'
+const toaddr = 'TURZROPXXKUGCRTEGYXZARYYXWWPDRFRQDGMSIZGACGOU9YBIRWLUONPTPCKEXVJKQFZPKRPZZBLLNMCX'
 const fromseed = 'PZJOTYRNDBDVIDSWMVFOUNDFHDJWECI9QRXFHFQEY9TFFJLBXTQEHOMIZZXHOGJVWKXRDZQVKQUVHSSHZ'
 
 const message = iota.utils.toTrytes('Hello World!')
@@ -18,7 +18,7 @@ const transfers = [
 	}
 ]
 
-iota.api.sendTransfer(fromseed, 3, 9, transfers, (error, success) => {
+iota.api.sendTransfer(fromseed, 3, 14, transfers, (error, success) => {
 	if (error) {
 		console.log(error)
 	}

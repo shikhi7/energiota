@@ -97,12 +97,12 @@ function getBill(seed, billers){
 
 function payBill(seed, mssg){
   return new Promise(function(resolve, reject){
-    msgArr = mssg.split(" ");
-    toAdd = msgArr[5];
-    toAddr = toAdd.slice(0, 81);
-    amt = Number(msgArr[2]);
+    let msgArr = mssg.split(" ");
+    let toAdd = msgArr[5];
+    let toAddr = toAdd.slice(0, 81);
+    let amt = Number(msgArr[2]);
     //resolve(toAdd);
-    mess = iota.utils.toTrytes('Hello World!');
+    let mess = iota.utils.toTrytes('Hello World!');
     let transfers = [
     	{
     		value: amt,
@@ -110,7 +110,7 @@ function payBill(seed, mssg){
         message: mess
     	}
     ]
-		iota.api.sendTransfer(seed, 3, 9, transfers, (error, success) => {
+		iota.api.sendTransfer(seed, 3, 14, transfers, (error, success) => {
 			if (error) {
 				reject(error);
 			}
